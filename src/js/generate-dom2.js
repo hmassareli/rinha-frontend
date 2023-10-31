@@ -10,7 +10,7 @@ import {
   openBracketNode,
 } from "./domgen/nodes";
 
-export const createParser = () => {
+export const createParser = (domOperations) => {
   let helpers = {
     partialValue: [""],
     isAfterColon: false,
@@ -29,15 +29,19 @@ export const createParser = () => {
   const output = document.getElementById("output");
 
   function putLineToDom() {
-    const line = document.createElement("div");
-    line.className = "line";
-    line.appendChild(vdom);
-    vdom = document.createDocumentFragment();
-    const tabWidth = getTabs(helpers.scopes) * 20;
-    line.style.gridTemplateColumns = `${tabWidth}px auto`;
-    output.appendChild(line);
-
-    return line;
+    domOperations.push(
+      (function (vdomInterno, scopes, line) {
+        return () => {
+          line.className = "line";
+          line.appendChild(vdomInterno);
+          vdom = document.createDocumentFragment();
+          const tabWidth = getTabs(scopes) * 20;
+          line.style.gridTemplateColumns = `${tabWidth}px auto`;
+          console.log(line);
+          output.appendChild(line);
+        };
+      })(vdom, helpers.scopes, document.createElement("div"))
+    );
   }
 
   function cloneToVdom(node) {
@@ -352,5 +356,8 @@ export const createParser = () => {
     if (done) {
       putLineToDom();
     }
+    console.log(domOperations[0]);
+    domOperations[0]();
+    domOperations = [];
   };
 };

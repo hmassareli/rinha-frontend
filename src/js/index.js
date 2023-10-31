@@ -7,7 +7,9 @@ let finished = false;
 const textDecoder = new TextDecoder();
 let domOperations = [];
 
-const parser = createParser();
+let fileNameDiv = document.getElementById("filename");
+
+const parser = createParser(domOperations);
 
 const image = new Image();
 image.src = "./tae.gif";
@@ -80,15 +82,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const text = textDecoder.decode(value);
 
     domOperations.push(
-      (function (fileName) {
+      (function (fileName, fileNameDiv) {
         return () => {
           // Adicione o novoElemento ao DOM
           fileNameDiv.appendChild(document.createTextNode(fileName));
         };
-      })(file.name)
+      })(file.name, fileNameDiv)
     );
-    parser(text, done, domOperations);
 
+    let parserTimeWithoutDom = measure("parse without dom", {
+      willAlert: false,
+    });
+    parser(text, done);
+    parserTimeWithoutDom.finish();
     handleInfiniteScroll(() => {
       readOne(readableStream, parser, 500);
     });
