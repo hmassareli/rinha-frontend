@@ -5,6 +5,8 @@ let openFirstChunks;
 let throttleTimer;
 let finished = false;
 const textDecoder = new TextDecoder();
+let domOperations = [];
+
 const parser = createParser();
 
 const image = new Image();
@@ -77,10 +79,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const { done, value } = await readableStream.read(new Uint8Array(500));
     const text = textDecoder.decode(value);
 
-    parser(text, done);
-
-    const fileNameBlock = document.getElementById("filename");
-    fileNameBlock.appendChild(document.createTextNode(file.name));
+    domOperations.push(
+      (function (fileName) {
+        return () => {
+          // Adicione o novoElemento ao DOM
+          fileNameDiv.appendChild(document.createTextNode(fileName));
+        };
+      })(file.name)
+    );
+    parser(text, done, domOperations);
 
     handleInfiniteScroll(() => {
       readOne(readableStream, parser, 500);
