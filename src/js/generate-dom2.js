@@ -30,8 +30,9 @@ export const createParser = (domOperations) => {
 
   function putLineToDom() {
     domOperations.push(
-      (function (vdomInterno, scopes, line) {
+      (function (vdomInterno, scopes) {
         return () => {
+          let line = document.createElement("div");
           line.className = "line";
           line.appendChild(vdomInterno);
           vdom = document.createDocumentFragment();
@@ -40,7 +41,7 @@ export const createParser = (domOperations) => {
           console.log(line);
           output.appendChild(line);
         };
-      })(vdom, helpers.scopes, document.createElement("div"))
+      })(vdom, helpers.scopes)
     );
   }
 
