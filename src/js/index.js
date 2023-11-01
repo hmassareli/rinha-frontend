@@ -6,7 +6,7 @@ let throttleTimer;
 let finished = false;
 const textDecoder = new TextDecoder();
 const parser = createParser();
-
+const fileNameBlock = document.getElementById("filename");
 const image = new Image();
 image.src = "./tae.gif";
 
@@ -24,20 +24,13 @@ const throttle = (callback, time) => {
 };
 
 const handleInfiniteScroll = (callback) => {
-  let limitToLoadMore =
-    document.body.offsetHeight * 0.1 < 500
-      ? document.body.offsetHeight * 0.1
-      : 500;
-  throttle(() => {
-    const endOfPage =
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - limitToLoadMore;
+  const endOfPage =
+    window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
-    if (endOfPage) {
-      console.log("end of page");
-      callback();
-    }
-  }, 300);
+  if (endOfPage) {
+    console.log("end of page");
+    callback();
+  }
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -74,28 +67,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const streamToText = async (file) => {
     const blob = file.stream();
     const readableStream = await blob.getReader({ mode: "byob" });
-    const { done, value } = await readableStream.read(new Uint8Array(500));
+    const { done, value } = await readableStream.read(new Uint8Array(700));
     const text = textDecoder.decode(value);
 
     parser(text, done);
 
-    const fileNameBlock = document.getElementById("filename");
     fileNameBlock.appendChild(document.createTextNode(file.name));
 
-    handleInfiniteScroll(() => {
-      readOne(readableStream, parser, 500);
-    });
-
-    window.addEventListener("scroll", () =>
-      handleInfiniteScroll(async () => {
-        if (!finished) {
-          let done = await readOne(readableStream, parser);
-          finished = done;
-        }
-      })
-    );
-
     runAfterFramePaint(async () => {
+      window.addEventListener("scroll", () =>
+        handleInfiniteScroll(async () => {
+          if (!finished) {
+            let done = await readOne(readableStream, parser);
+            finished = done;
+          }
+        })
+      );
       openFirstChunks.finish();
 
       worker.postMessage(file);
