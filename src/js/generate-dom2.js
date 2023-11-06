@@ -9,10 +9,11 @@ import {
   colonNode,
   openBracketNode,
 } from "./domgen/nodes";
+import { measure, runAfterFramePaint } from "./measure";
 
 export const createParser = () => {
   let helpers = {
-    partialValue: [""],
+    partialValue: "",
     isAfterColon: false,
     isInsideUnicode: false,
     isInsideEscape: false,
@@ -24,9 +25,12 @@ export const createParser = () => {
     accumulatedNumber: "",
     accumulatedBooleanOrNull: "",
     scopes: [],
+    isFirstChunk: true,
   };
   let vdom = document.createDocumentFragment();
   const output = document.getElementById("output");
+
+  const domOps = [];
 
   function putLineToDom() {
     const line = document.createElement("div");
@@ -35,7 +39,8 @@ export const createParser = () => {
     vdom = document.createDocumentFragment();
     const tabWidth = getTabs(helpers.scopes) * 20;
     line.style.gridTemplateColumns = `${tabWidth}px auto`;
-    output.appendChild(line);
+    // output.appendChild(line);
+    domOps.push(line);
 
     return line;
   }
@@ -53,12 +58,13 @@ export const createParser = () => {
     return scopes.length - subTabs;
   }
 
-  return (text, done) => {
+  return (text, done, height) => {
     let i = 0;
+    let maxHeight = height / 30;
+    text = helpers.partialValue + text;
 
     while (i < text.length) {
       let char = text[i];
-
       // escaped chars
       if (helpers.isInsideEscape) {
         if (char === "\\" || char === '"') {
@@ -147,11 +153,13 @@ export const createParser = () => {
         // se não tiver no meio de uma string...
         helpers.scopes.push({ type: "array", index: 0 });
       } else if (char === "}") {
-        //se não tiver no meio de uma string
         if (!helpers.isInsideString) {
-          // console.log("fechar object");
+          // se estiver no meio de um objeto
+          if (helpers.scopes.at(-1)?.type === "object") {
+            putLineToDom();
+            helpers.scopes.pop();
+          }
         }
-        helpers.scopes.pop();
       } else if (char === "]") {
         if (!helpers.isInsideString) {
           if (helpers.isInsideBooleanOrNull) {
@@ -186,7 +194,6 @@ export const createParser = () => {
             helpers.accumulatedNumber = "";
             helpers.isInsideNumber = false;
           }
-
           // console.log("fechar array");
           putLineToDom();
           cloneToVdom(closeBracketNode);
@@ -345,12 +352,34 @@ export const createParser = () => {
         helpers.isInsideBooleanOrNull = true;
         helpers.accumulatedBooleanOrNull += char;
       }
-
+      if (domOps.length >= maxHeight + 10 && helpers.isFirstChunk) {
+        helpers.partialValue = text.slice(i + 1);
+        // console.log(text[i - 2], text[i - 1], text[i]);
+        // console.log(helpers.partialValue);
+        break;
+      } else {
+        helpers.partialValue = "";
+      }
       i++;
     }
+    helpers.isFirstChunk = false;
+    const timeToDom = measure("tempo pra jogar na tela:", { willAlert: false });
+
+    const yavdom = document.createDocumentFragment();
+    for (let i = 0; i < domOps.length; i++) {
+      yavdom.appendChild(domOps[i]);
+    }
+    output.appendChild(yavdom);
+    domOps.length = 0;
 
     if (done) {
       putLineToDom();
+      for (let i = 0; i < domOps.length; i++) {
+        output.appendChild(domOps[i]);
+      }
     }
+    runAfterFramePaint(() => {
+      timeToDom.finish();
+    });
   };
 };
