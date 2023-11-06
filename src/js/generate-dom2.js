@@ -119,7 +119,6 @@ export const createParser = () => {
 
           if (helpers.scopes.at(-1)?.type === "array") {
             // console.log("OBJECT_IN_ARRAY");
-            // cloneTabs();
             vdom.appendChild(
               createArrayKeyNode(helpers.scopes.at(-1).index + ": ")
             );
@@ -154,14 +153,28 @@ export const createParser = () => {
         helpers.scopes.push({ type: "array", index: 0 });
       } else if (char === "}") {
         if (!helpers.isInsideString) {
-          // se estiver no meio de um objeto
-          if (helpers.scopes.at(-1)?.type === "object") {
+          helpers.isAfterColon = false;
+          if (helpers.isInsideNumber) {
+            vdom.appendChild(createStringNode(helpers.accumulatedNumber));
+            helpers.accumulatedNumber = "";
+            helpers.isInsideNumber = false;
             putLineToDom();
-            helpers.scopes.pop();
+            // helpers.scopes.pop();
           }
+          if (helpers.isInsideBooleanOrNull) {
+            vdom.appendChild(
+              createStringNode(helpers.accumulatedBooleanOrNull)
+            );
+            helpers.accumulatedBooleanOrNull = "";
+            helpers.isInsideBooleanOrNull = false;
+            putLineToDom();
+            // helpers.scopes.pop();
+          }
+          helpers.scopes.pop();
         }
       } else if (char === "]") {
         if (!helpers.isInsideString) {
+          helpers.isAfterColon = false;
           if (helpers.isInsideBooleanOrNull) {
             // TODO: solucao [001]
             // console.log(
@@ -194,13 +207,8 @@ export const createParser = () => {
             helpers.accumulatedNumber = "";
             helpers.isInsideNumber = false;
           }
-          // console.log("fechar array");
           putLineToDom();
           cloneToVdom(closeBracketNode);
-          helpers.scopes.pop();
-          putLineToDom();
-          // cloneTabs();
-        } else {
           helpers.scopes.pop();
         }
       } else if (char === "\\") {
