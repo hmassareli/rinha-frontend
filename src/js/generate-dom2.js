@@ -125,8 +125,8 @@ export const createParser = () => {
           }
 
           putLineToDom();
+          helpers.scopes.push({ type: "object", index: 0 });
         }
-        helpers.scopes.push({ type: "object", index: 0 });
       } else if (char === "[") {
         if (!helpers.isInsideString) {
           // console.log("abrir array");
@@ -158,8 +158,6 @@ export const createParser = () => {
             vdom.appendChild(createStringNode(helpers.accumulatedNumber));
             helpers.accumulatedNumber = "";
             helpers.isInsideNumber = false;
-            putLineToDom();
-            // helpers.scopes.pop();
           }
           if (helpers.isInsideBooleanOrNull) {
             vdom.appendChild(
@@ -167,9 +165,8 @@ export const createParser = () => {
             );
             helpers.accumulatedBooleanOrNull = "";
             helpers.isInsideBooleanOrNull = false;
-            putLineToDom();
-            // helpers.scopes.pop();
           }
+          putLineToDom();
           helpers.scopes.pop();
         }
       } else if (char === "]") {
