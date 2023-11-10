@@ -29,6 +29,8 @@ export const createParser = () => {
   };
   let vdom = document.createDocumentFragment();
   const output = document.getElementById("output");
+  const initialBlock = document.getElementById("index");
+  const errorBlock = document.getElementById("error");
 
   const domOps = [];
 
@@ -357,16 +359,19 @@ export const createParser = () => {
         helpers.isInsideBooleanOrNull = true;
         helpers.accumulatedBooleanOrNull += char;
       }
-      if (domOps.length >= maxHeight + 10 && helpers.isFirstChunk) {
+      if (domOps.length >= maxHeight + 5 && helpers.isFirstChunk) {
         helpers.partialValue = text.slice(i + 1);
-        // console.log(text[i - 2], text[i - 1], text[i]);
-        // console.log(helpers.partialValue);
         break;
       } else {
         helpers.partialValue = "";
       }
       i++;
     }
+    if (helpers.isFirstChunk) {
+      initialBlock.style.display = "none";
+      errorBlock.style.display = "none";
+    }
+
     helpers.isFirstChunk = false;
     const timeToDom = measure("tempo pra jogar na tela:", { willAlert: false });
 

@@ -37,7 +37,6 @@ document.addEventListener("resize", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const initialBlock = document.getElementById("index");
   const errorBlock = document.getElementById("error");
   if (this.location.hash === "#error") {
     errorBlock.style.display = "block";
@@ -47,7 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputFile = document.getElementById("arquivo");
 
   inputFile.addEventListener("change", function (e) {
-    openFirstChunks = measure("paint first chunks", { willAlert: false });
+    openFirstChunks = measure("Time to paint first chunk", {
+      willAlert: false,
+    });
 
     /** @type {File} */
     let file = e.target.files[0];
@@ -58,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
   async function readOne(stream, length = 3000) {
     const { done, value } = await stream.read(new Uint8Array(length));
     const text = textDecoder.decode(value);
-
     parser(text, done, height);
     return done;
   }
@@ -69,10 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const { done, value } = await readableStream.read(new Uint8Array(1500));
     const text = textDecoder.decode(value);
 
-    parser(text, done, height);
-    initialBlock.style.display = "none";
-    errorBlock.style.display = "none";
     fileNameBlock.appendChild(document.createTextNode(file.name));
+    parser(text, done, height);
 
     runAfterFramePaint(async () => {
       openFirstChunks.finish();
