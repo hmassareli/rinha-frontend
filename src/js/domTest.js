@@ -310,3 +310,42 @@ button6.addEventListener("click", function () {
     timeToDom.finish();
   });
 });
+
+const createLinearGradientForColoredText = (stringsWithColors) => {
+  let color = "";
+  let textLength = 0;
+  let letterWidth = 10.8;
+  let letterCount = 0;
+  let gradient = ` background-size: 100%;
+   background-clip: text;
+-webkit-background-clip: text;
+color: transparent;
+ background-image: linear-gradient(
+  to right`;
+  stringsWithColors.map((stringWithColor) => {
+    color = stringWithColor.color;
+    textLength = stringWithColor.text.length;
+    gradient += `,${color} ${letterCount * letterWidth}px, 
+    ${color} ${(letterCount + textLength) * letterWidth}px
+    `;
+    letterCount += textLength;
+  });
+  gradient += `);`;
+  console.log(gradient);
+  return gradient;
+};
+
+createLinearGradientForColoredText([
+  {
+    text: "Henrique",
+    color: "red",
+  },
+  {
+    text: " : ",
+    color: "green",
+  },
+  {
+    text: " Henrique",
+    color: "blue",
+  },
+]);
