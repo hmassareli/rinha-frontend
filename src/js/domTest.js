@@ -1,6 +1,7 @@
 const image = new Image();
 image.src = "../../../tae.gif";
 
+import { createLinearGradientForColoredText } from "./generate-dom2";
 import { measure, runAfterFramePaint } from "./measure";
 const bagulho = { measure, runAfterFramePaint };
 
@@ -311,41 +312,83 @@ button6.addEventListener("click", function () {
   });
 });
 
-const createLinearGradientForColoredText = (stringsWithColors) => {
-  let color = "";
-  let textLength = 0;
-  let letterWidth = 10.8;
-  let letterCount = 0;
-  let gradient = ` background-size: 100%;
-   background-clip: text;
--webkit-background-clip: text;
-color: transparent;
- background-image: linear-gradient(
-  to right`;
-  stringsWithColors.map((stringWithColor) => {
-    color = stringWithColor.color;
-    textLength = stringWithColor.text.length;
-    gradient += `,${color} ${letterCount * letterWidth}px, 
-    ${color} ${(letterCount + textLength) * letterWidth}px
-    `;
-    letterCount += textLength;
-  });
-  gradient += `);`;
-  console.log(gradient);
-  return gradient;
-};
+let button7 = document.getElementById("btn7");
+let tabs = 0;
+const gradientTest = createLinearGradientForColoredText(
+  [
+    {
+      text: "Henrique",
+      color: "red",
+    },
+    {
+      text: ": ",
+      color: "green",
+    },
+    {
+      text: "Henrique",
+      color: "blue",
+    },
+  ],
+  tabs
+);
+console.log(gradientTest);
+button7.addEventListener("click", function () {
+  const testeDiv = document.createElement("div");
+  testeDiv.textContent = "Henrique: Henrique";
+  testeDiv.classList.add("gradient");
+  testeDiv.style = gradientTest;
+  testeDiv.style.gridTemplateColumns = `${21.6 * tabs}px auto`;
 
-createLinearGradientForColoredText([
-  {
-    text: "Henrique",
-    color: "red",
-  },
-  {
-    text: " : ",
-    color: "green",
-  },
-  {
-    text: " Henrique",
-    color: "blue",
-  },
-]);
+  const timeToDom = measure("tempo pra jogar na tela:", { willAlert: false });
+
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+  output.appendChild(testeDiv.cloneNode(true));
+
+  // for (let i = 0; i < 1000; i++) {
+  //   document.body.appendChild(div.cloneNode(true));
+  // }
+
+  runAfterFramePaint(() => {
+    timeToDom.finish();
+  });
+});

@@ -50,6 +50,28 @@
       .array-key {
         color: #bfbfbf;
       }
+
+      .gradient {
+        background-size: 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-size: 18px;
+        font-family: Noto Sans Mono, monospace;
+        display: grid;
+      }
+
+      .gradient::before {
+        content: "";
+        height: 100%;
+        background-image: repeating-linear-gradient(
+          to right,
+          #000,
+          #000 1px,
+          transparent 1px,
+          transparent 21.6px
+        );
+      }
     </style>
     <script src="./src/js/domTest.js" type="module"></script>
   </head>
@@ -61,7 +83,8 @@
     <button id="btn3">Com div class bg</button>
     <button id="btn4">Com div inline bg webp</button>
     <button id="btn5">Com div inline bg webp</button>
-    <button id="btn6">Teste render identico separado</button>
+    <button id="btn6">Teste render normal</button>
+    <button id="btn7">Teste render gradient</button>
 
     <div id="output"></div>
   </body>

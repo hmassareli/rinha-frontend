@@ -11,26 +11,36 @@ import {
 } from "./domgen/nodes";
 import { measure, runAfterFramePaint } from "./measure";
 
-const createLinearGradientForColoredText = (stringsWithColors) => {
+export const createTabsGradient = (tabs) => {
+  let tabWidth = 10.8 * 2;
+  let gradient = `background-image: 
+    repeating-linear-gradient(
+      to right, 
+      #000, #000 1px, 
+      transparent 1px, transparent 21.6px
+    );`;
+
+  return gradient;
+};
+
+export const createLinearGradientForColoredText = (stringsWithColors, tabs) => {
   let color = "";
   let textLength = 0;
   let letterWidth = 10.8;
-  let letterCount = 0;
-  let gradient = ` background-size: 100%;
-   background-clip: text;
--webkit-background-clip: text;
-color: transparent;
- background-image: linear-gradient(
-  to right`;
-  stringsWithColors.map((stringWithColor) => {
+  let letterCount = tabs * 2;
+  let gradient = "background-image: linear-gradient(to right";
+
+  for (const stringWithColor of stringsWithColors) {
     color = stringWithColor.color;
     textLength = stringWithColor.text.length;
-    gradient += `,${color} ${letterCount * letterWidth}px, 
-    ${color} ${(letterCount + textLength) * letterWidth}px
-    `;
+
+    gradient += `,${color} ${letterCount * letterWidth}px,`; // start
+    gradient += `${color} ${(letterCount + textLength) * letterWidth}px`; // end
+
     letterCount += textLength;
-  });
-  gradient += `);`;
+  }
+
+  gradient += ");";
 
   return gradient;
 };
