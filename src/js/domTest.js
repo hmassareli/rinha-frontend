@@ -260,52 +260,9 @@ button6.addEventListener("click", function () {
     '<span class="key">type</span><span class="orange">: </span><span class="string">"FeatureCollection"</span>';
   const timeToDom = measure("tempo pra jogar na tela:", { willAlert: false });
 
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-
-  // for (let i = 0; i < 1000; i++) {
-  //   document.body.appendChild(div.cloneNode(true));
-  // }
+  for (let i = 0; i < 10000; i++) {
+    document.body.appendChild(testeDiv.cloneNode(true));
+  }
 
   runAfterFramePaint(() => {
     timeToDom.finish();
@@ -341,52 +298,9 @@ button7.addEventListener("click", function () {
 
   const timeToDom = measure("tempo pra jogar na tela:", { willAlert: false });
 
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-  output.appendChild(testeDiv.cloneNode(true));
-
-  // for (let i = 0; i < 1000; i++) {
-  //   document.body.appendChild(div.cloneNode(true));
-  // }
+  for (let i = 0; i < 10000; i++) {
+    document.body.appendChild(testeDiv.cloneNode(true));
+  }
 
   runAfterFramePaint(() => {
     timeToDom.finish();
